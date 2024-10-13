@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenação de Vetores</title>
+    <script src="ordenando.js" defer></script>
+    <link rel="stylesheet" href="ordenando.js">
+
+</head>
+<body>
+    <h1>Ordenação de Vetores</h1>
+
+    <input type="number" id="valor" placeholder="Digite um valor" />
+    <button onclick="add()">Adicionar</button>
+
+    <select id="algoritmo">
+        <option value="bubble">Bubble Sort</option>
+        <option value="selection">Selection Sort</option>
+        <option value="quick">Quick Sort</option>
+    </select>
+
+    <button onclick="ordenar()">Ordenar</button>
+    <button onclick="misturar()">Misturar</button>
+
+    <ul id="valores"></ul>
+
+    <script>
+        function add() {
+            const campoValor = document.getElementById('valor');
+            const listaValores = document.getElementById('valores');
+
+            if (campoValor.value) {
+                const node = document.createElement('li');
+                const texto = document.createTextNode(campoValor.value);
+                node.appendChild(texto);
+                listaValores.appendChild(node);
+                campoValor.value = ''; // Limpar o campo de entrada
+            }
+        }
+
+        function ordenar() {
+            const listaValores = document.getElementById('valores');
+            const algoritmo = document.getElementById('algoritmo').value;
+
+            // Coletar os valores da lista
+            const vetor = Array.from(listaValores.children)
+                .map(item => parseInt(item.innerHTML));
+
+            // Escolher o algoritmo de ordenação
+            switch (algoritmo) {
+                case 'bubble':
+                    bubble_sort(vetor);
+                    break;
+                case 'selection':
+                    selection_sort(vetor);
+                    break;
+                case 'quick':
+                    quick_sort(vetor, 0, vetor.length - 1);
+                    break;
+            }
+
+            // Atualizar a lista com os valores ordenados
+            listaValores.innerHTML = vetor.reduce((html, valor) => 
+                html + `<li>${valor}</li>`, '');
+        }
+
+        function misturar() {
+            const listaValores = document.getElementById('valores');
+
+            // Coletar os valores da lista
+            const vetor = Array.from(listaValores.children)
+                .map(item => parseInt(item.innerHTML));
+
+            // Embaralhar os valores
+            shuffle(vetor, vetor.length * 2);
+
+            // Atualizar a lista com os valores embaralhados
+            listaValores.innerHTML = vetor.reduce((html, valor) => 
+                html + `<li>${valor}</li>`, '');
+        }
+    </script>
+</body>
+</html>

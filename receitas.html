@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Receitas</title>
+
+    <!-- Inclusão do Bootstrap -->
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-9ndCyUa6Y5Y2DhI9xP1e9jrwxBinIaCfBfNuM6LIywE3Iw8p3KSkv+1yhRg7gNRV" 
+        crossorigin="anonymous">
+</head>
+<body onload="preencheCatalogo()">
+    <div class="container-fluid bg-warning">
+        <h1 class="text-center py-4">Catálogo de Receitas</h1>
+
+        <!-- Catálogo de receitas -->
+        <div class="d-flex flex-wrap" id="pnlCatalogo"></div>
+    </div>
+
+    <script>
+        // Vetor de receitas no formato JSON
+        const receitas = [
+            {
+                titulo: "Bolo de Cenoura",
+                imagem: "bolo_cenoura.png",
+                preparo: "Bata no liquidificador e asse por 40 minutos.",
+                ingredientes: ["3 cenouras", "2 xícaras de açúcar", "3 ovos", "1/2 xícara de óleo", "2 xícaras de farinha", "1 colher de fermento"]
+            },
+            {
+                titulo: "Feijoada",
+                imagem: "feijoada.png",
+                preparo: "Cozinhe os ingredientes por 2 horas.",
+                ingredientes: ["500g de feijão preto", "300g de linguiça", "2 folhas de louro", "Alho e cebola", "Sal a gosto"]
+            },
+            {
+                titulo: "Brigadeiro",
+                imagem: "brigadeiro.png",
+                preparo: "Misture na panela e cozinhe até soltar do fundo.",
+                ingredientes: ["1 lata de leite condensado", "2 colheres de manteiga", "4 colheres de chocolate em pó", "Granulado para decorar"]
+            }
+        ];
+
+        // Função para gerar a lista de ingredientes em HTML
+        function getListaIngredientes(receita) {
+            const lista = receita.ingredientes
+                .map(ingrediente => `<li>${ingrediente}</li>`)
+                .reduce((html, item) => html + item, '');
+            return `<ul>${lista}</ul>`;
+        }
+
+        // Função para criar o painel (card) de cada receita
+        function getCard(receita) {
+            return `
+                <div class="card m-3" style="width: 250px;">
+                    <img src="${receita.imagem}" class="card-img-top" alt="${receita.titulo}">
+                    <div class="card-body">
+                        <h5 class="card-title">${receita.titulo}</h5>
+                        <div class="card-text">
+                            ${getListaIngredientes(receita)}
+                            <hr>
+                            <p>${receita.preparo}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Função para preencher o catálogo de receitas na página
+        function preencheCatalogo() {
+            const pnlCatalogo = document.getElementById('pnlCatalogo');
+            const htmlCatalogo = receitas
+                .map(receita => getCard(receita))
+                .reduce((html, card) => html + card, '');
+            pnlCatalogo.innerHTML = htmlCatalogo;
+        }
+    </script>
+</body>
+</html>
